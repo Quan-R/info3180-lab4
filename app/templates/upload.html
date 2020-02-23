@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+{% endblock%}
+
 {% block main %}
 <h1 class="page-header">File Upload</h1>
 
-{% include 'flash_messages.html' %}
 
 {# Add the appropriate method and enctype attributes to the form tag to allow for file uploads #}
-<form action="{{ url_for('upload') }}">
-
+<form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+  
+  {% include 'flash_messages.html' %}
   {# Add the file upload field as you learnt for Flask-WTF #}
 
-  <button type="submit" name="submit" class="btn btn-primary">Upload file</button>
+  {{ form.csrf_token }}
+
+  <div class="form-group">
+      {{ form.image(class="form-control") }}
+  </div>
+
+  <button type="submit" name="submit" class="btn">Upload file</button>
 </form>
 {% endblock %}
