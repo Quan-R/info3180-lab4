@@ -25,6 +25,21 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
+def get_uploaded_images():
+    for (root,dirs,files) in os.walk(app.config['UPLOAD_FOLDER'], topdown=true): 
+        print (root) 
+        print (dirs) 
+        print (files) 
+        print ('--------------------------------')
+        for file in files:
+            print (os.path.join(subdir, file)) 
+
+
+@app.route('/files')
+def files():
+    files = get_uploaded_images()
+    return render_template('files.html', img=files)
+
 
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
@@ -40,10 +55,11 @@ def upload():
     if request.method == 'POST':
         # Get file data and save to your uploads folder
         form = UploadForm()
-        if form.validate_on_submit():
-            photo = form.image.data
-            filename = secure_filename(photo.filename)
-            photo.save(os.path.join(app.config['UPLOAD_FOLDER']))
+        if request.files:
+            image = request.files['image']
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
             flash('File Saved', 'success')
             return redirect(url_for('home'))
 
