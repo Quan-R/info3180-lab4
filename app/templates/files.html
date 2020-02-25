@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/file.css') }}">
 {% endblock%}
 
 {% block main %}
 <h1 class="page-header">Uploads</h1>
 
-<div>
+<div class="gallery">
     <ul>
-        <img src="{{url_for('send_image', filename=image_name)}}">
+        <img src="{{url_for('upload', filename=img)}}" class="gallery__img">
     </ul>
 </div>
 {% endblock %}

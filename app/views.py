@@ -26,17 +26,24 @@ def about():
     return render_template('about.html', name="Mary Jane")
 
 def get_uploaded_images():
-    for (root,dirs,files) in os.walk(app.config['UPLOAD_FOLDER'], topdown=true): 
-        print (root) 
+    rootpath = os.getcwd()
+    lst = []
+    
+    for subdir, dirs, files in os.walk(rootpath + "\\app\\static\\uploads"): 
+        print (subdir) 
         print (dirs) 
         print (files) 
         print ('--------------------------------')
         for file in files:
-            print (os.path.join(subdir, file)) 
-
+            print(file)
+            lst.append (os.path.join(subdir, files))
+        return lst
 
 @app.route('/files')
 def files():
+    if not session.get('logged_in'):
+        abort(401)
+
     files = get_uploaded_images()
     return render_template('files.html', img=files)
 
